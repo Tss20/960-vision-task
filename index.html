@@ -99,6 +99,82 @@
 </body>
 
 <script>
+    
+ var postRequest = function (DICT_) {
+
+    data = data || {};
+     
+     label_to_entry={
+         "n02480495_12334": "entry.258975708",
+         "n04204347_2608": "entry.1620155613",
+         "n01443537_18160": "entry.125262553",
+         "n02395406_27800": "entry.1985842842",
+         "n02089867_1499": "entry.1807393931",
+         "n02132136_1163": "entry.666511869",
+         "n01770081_20238": "entry.631794090",
+         "n01728920_3094": "entry.425839384",
+         "n02481823_750": "entry.1302194355",
+         "n02667093_4473": "entry.1187882722",
+         "n01687978_11261":"entry.1954709867",
+         "n02086646_5634":"entry.288587059",
+          "n02395406_126722":"entry.1981893082", 
+           "n01682714_5209": "entry.487993157", 
+           "n02787622_18405":"entry.26216117", 
+           "n01728572_8381":"entry.1466215657", 
+            "no03733281_18757":"entry.1469772057", 
+           "n02124075_8519":"entry.1265835014", 
+            "n02403003_8205":"entry.1050142143",
+            "n02536864_33865":"entry.251636923", 
+            "n01537544_23365": "entry.831680560", 
+            "n02172182_10420": "entry.2145630717", 
+            "n02403003_5517": "entry.1619889924", 
+            "n02486261_5082": "entry.1513861263", 
+            "n02133161_5643":"entry.1845124952", 
+            "n02123045_909": "entry.1150017645",  
+           "n01558993_3523": "entry.1290969298",  
+ 	        "blueNone": "entry.1761931434", 
+           "n02395406_34373":"entry.1827675376",  
+            "n02797295_12668": "entry.1773560787",  
+            "n04265275_11650": "entry.2019101385", 
+            "n03899768_131602": "entry.1682937974", 
+           "n02403003_13048": "entry.614513517",    
+            "n01685808_5907": "entry.1146441082",  
+           "n02403003_5033": "entry.1468309066",  
+            "n02087394_12262": "entry.182126342",   
+            "n02492035_2600": "entry.946681530",  
+            "n01728920_18940": "entry.810208474",  
+            "n02123394_4665": "entry.274491678",  
+            "n02395406_20997": "entry.2001492468",  
+            "n01682714_3665": "entry.992302996", 
+            "n02480495_18162":"entry.490157222", 
+            "n02132136_1914":"entry.538523714",  
+            "n04522168_34974":"entry.448712665",   
+           "n01440764_12435":"entry.2108394768",  
+            "n02669723_7201": "entry.1005914546", 
+           "n02165456_4723": "entry.524045313",     
+            "n01728920_1558":"entry.1980945954",      
+           "n02133161_15593":"entry.1696006361",  
+            "n01531178_13382":"entry.1182041820",  
+           "n02165105_1003":"entry.981090309",  
+           "n02085936_25190":"entry.1830389128",    
+            "n02514041_3032":"entry.347136207",  
+           "n01582220_6409": "entry.1564197089"
+     }
+
+    var form = $('<form method="post" class="js:hidden"> <form name="gform" id="gform" enctype="text/plain" target="hidden_iframe" onsubmit="submitted=true;">
+ ').attr('action', "https://docs.google.com/forms/d/e/1FAIpQLSfOr7SlHKlnjrVYVuxHmdTo6FfwjZ6mkC_cJoYDgJC6QP2L_g/formResponse?");
+
+    for let(key in DICT_) {
+        var input = $('<input type="hidden">')
+            .attr('name', label_to_entry[DICT_[key][0]])
+            .attr('id', label_to_entry[DICT_[key][0]])
+            .attr('value', DICT_[key][2]);
+        form.append(input);
+    });
+
+    $('body').append(form);
+    form.submit();
+}; // For submitting data to form
 
 img_on = 0; //Is increased throughout the code to control which img we are on
 answers_dict = {}; //Where participants answers are kept
@@ -116,6 +192,8 @@ function clearPage(obj, next_func){
     elem.style.display = "none";
     next_func(obj);
 }
+    
+  
 
 //For moving on from the instructions to the focal task 
 function hideInter(obj, next_func){
@@ -168,7 +246,9 @@ function showImgs(bPressed){
         //Records last button pressed for last image 
         img_seen = img_order[img_on-1]
         answers_dict[img_on-1] = [img_seen, picture_dict[img_seen], bPressed.textContent];
-        console.log(answers_dict);
+        //console.log(answers_dict);
+        
+        postRequest(answers_dict);
 
         obj = document.getElementsByClassName('end')[0];
         obj.style.display = "block";
